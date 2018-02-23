@@ -1,0 +1,212 @@
+azrudb5007.ra.rockwell.com
+Rishi2015!
+zyumxhhoipetdJ6
+
+
+2017-10-20T10:36:49.3327185Z000000000000000
+2017-10-20T10:36:49.3327185Z000000000000000
+2017-10-19T18:04:52.7073996Z000000000000000
+
+
+
+kafka-topics --delete --zookeeper iot101.rockwellautomation.com:2181/kafka --topic cgp_kafka_spi_ea_ra
+kafka-topics --delete --zookeeper iot101.rockwellautomation.com:2181/kafka --topic cgp_kafka_pap_ea_ra
+kafka-topics --delete --zookeeper iot101.rockwellautomation.com:2181/kafka --topic cgp_kafka_masterdata_xyz_ra
+kafka-topics --delete --zookeeper iot101.rockwellautomation.com:2181/kafka --topic cgp_kafka_masterdata_ftdefects_xyz_ra_out
+kafka-topics --delete --zookeeper iot101.rockwellautomation.com:2181/kafka --topic cgp_kafka_pap_masterdata_ra_c4_out
+kafka-topics --delete --zookeeper iot101.rockwellautomation.com:2181/kafka --topic cgp_kafka_pap_timers_ea_ra_out
+kafka-topics --delete --zookeeper iot101.rockwellautomation.com:2181/kafka --topic cgp_kafka_pap_slot_ea_ra_out
+kafka-topics --delete --zookeeper iot101.rockwellautomation.com:2181/kafka --topic cgp_kafka_pap_nozzle_ea_ra_out
+kafka-topics --delete --zookeeper iot101.rockwellautomation.com:2181/kafka --topic cgp_kafka_ea_ra_c4_out
+
+
+cgp_kafka_aoi_ea_ra
+cgp_kafka_masterdata_xyz_ra
+cgp_kafka_pap_ea_ra
+cgp_kafka_spi_ea_ra
+
+
+kafka-topics --create --zookeeper iot101.rockwellautomation.com:2181/kafka --replication-factor 3 --partitions 1 --topic cgp_kafka_spi_ea_ra
+kafka-topics --create --zookeeper iot101.rockwellautomation.com:2181/kafka --replication-factor 3 --partitions 1 --topic cgp_kafka_pap_ea_ra
+kafka-topics --create --zookeeper iot101.rockwellautomation.com:2181/kafka --replication-factor 3 --partitions 1 --topic cgp_kafka_masterdata_xyz_ra
+
+
+
+kafka-topics --create --zookeeper iot101.rockwellautomation.com:2181/kafka --replication-factor 3 --partitions 1 --topic cgp_kafka_masterdata_ftdefects_xyz_ra_out
+kafka-topics --create --zookeeper iot101.rockwellautomation.com:2181/kafka --replication-factor 3 --partitions 1 --topic cgp_kafka_pap_masterdata_ra_c4_out
+kafka-topics --create --zookeeper iot101.rockwellautomation.com:2181/kafka --replication-factor 3 --partitions 1 --topic cgp_kafka_pap_timers_ea_ra_out
+kafka-topics --create --zookeeper iot101.rockwellautomation.com:2181/kafka --replication-factor 3 --partitions 1 --topic cgp_kafka_pap_slot_ea_ra_out
+kafka-topics --create --zookeeper iot101.rockwellautomation.com:2181/kafka --replication-factor 3 --partitions 1 --topic cgp_kafka_pap_nozzle_ea_ra_out
+kafka-topics --create --zookeeper iot101.rockwellautomation.com:2181/kafka --replication-factor 3 --partitions 1 --topic cgp_kafka_ea_ra_c4_out
+
+kafka-console-consumer --zookeeper iot101.rockwellautomation.com:2181/kafka --topic cgp_kafka_pap_masterdata_ra_c4_out --from-beginning
+kafka-console-consumer --zookeeper iot101.rockwellautomation.com:2181/kafka --topic cgp_kafka_masterdata_ftdefects_xyz_ra_out --from-beginning
+kafka-console-consumer --zookeeper iot101.rockwellautomation.com:2181/kafka --topic cgp_kafka_pap_timers_ea_ra_out --from-beginning
+kafka-console-consumer --zookeeper iot101.rockwellautomation.com:2181/kafka --topic cgp_kafka_pap_slot_ea_ra_out --from-beginning
+kafka-console-consumer --zookeeper iot101.rockwellautomation.com:2181/kafka --topic cgp_kafka_ea_ra_c4_out --from-beginning
+
+kafka-run-class kafka.tools.GetOffsetShell --broker-list iot101.rockwellautomation.com:9092 --topic cgp_kafka_spi_ea_ra --time -1 | tr ":" " " | awk '{ sum += $3 } END { print sum }' 
+kafka-run-class kafka.tools.GetOffsetShell --broker-list iot101.rockwellautomation.com:9092 --topic cgp_kafka_pap_ea_ra --time -1 | tr ":" " " | awk '{ sum += $3 } END { print sum }' 
+kafka-run-class kafka.tools.GetOffsetShell --broker-list iot101.rockwellautomation.com:9092 --topic cgp_kafka_masterdata_xyz_ra --time -1 | tr ":" " " | awk '{ sum += $3 } END { print sum }' 
+
+kafka-console-consumer --zookeeper iot101.rockwellautomation.com:2181/kafka --topic cgp_kafka_spi_ea_ra --from-beginning
+
+kafka-console-consumer --zookeeper iot101.rockwellautomation.com:2181/kafka --topic cgp_kafka_pap_ea_ra --from-beginning
+
+kafka-console-consumer --zookeeper iot101.rockwellautomation.com:2181/kafka --topic cgp_kafka_spi_header_ea_ra_out --from-beginning
+
+kafka-topics --create --zookeeper iot101.rockwellautomation.com:2181/kafka --replication-factor 3 --partitions 1 --topic cgp_kafka_pap_ea_ra
+kafka-topics --create --zookeeper iot101.rockwellautomation.com:2181/kafka --replication-factor 3 --partitions 1 --topic cgp_kafka_pap_ea_ra_out
+
+ktutil
+ktutil:  addent -password -p svc-ra-bicoeloaddev@RA-INT.COM -k 1 -e RC4-HMAC
+Password for svc-ra-bicoeloaddev@RA-INT.COM: Qn<48K]+x@$v8gS
+ktutil:  wkt svc-ra-bicoeloaddev.keytab
+ktutil:  quit
+
+kinit svc-ra-bicoeloaddev@RA-INT.COM -k -t svc-ra-bicoeloaddev.keytab
+
+
+unset SSH_ASKPASS
+git clone -b master https://sudhirjangir@github.com/InfoObjects/ratwb.git
+
+
+mysql -h azrudb5004.ra.rockwell.com -u raiot -pRAiot@123 d_cgp_ra_spark_md
+
+create table topic_partitions_offset(offset long,partitions long,topic varchar(255))
+
+mvn -Dmaven.repo.local=/apps/rauptime/dev/m2/ clean install
+
+scp hive-service.properties sjudhir@azrudb5007.ra.rockwell.com:/apps/rauptime/twbtemp/ratwb/config/
+
+a.	/apps/ratwb/dev/config 
+b.	/apps/ratwb/dev/src 
+c.	/apps/ratwb/dev/build 
+d.	/apps/ratwb/dev/log 
+
+
+ ps -ef | grep java | grep c1 | awk '{ print $2}'
+
+
+
+
+  ea_assycircuitsilk   |
+| ea_assydetail        |
+| ea_comptype          |
+| ea_equipmentoutline  |
+| ea_ftdefects         |
+| ea_pap_gen           |
+| ea_pap_info          |
+| ea_pap_nozzle        |
+| ea_pap_slot          |
+| ea_pap_timers        |
+| ea_parentchild       |
+| ea_progorderlist     |
+| ea_spi_detail        |
+| ea_spi_header        |
+| ea_units             |
+| ea_wodetail          |
+| ea_workorder 
+
+
+
+ea_equipmentoutline[equipment_make] = pap_nozzle[user_name]
+Changer# "The second part of csv in location column + 1;	1,2,3 -> "3" ea_pap_nozzle.location
+Hole# "The third part of csv in location column + 1; 1,2,3 -> "4" ea_pap_nozzle.location
+
+location: 0,21,22
+Changer#: 21
+Hole#: 22
+
+MachNozz	CH-Hole [#"Changer#"]&"-"&[#"Hole#"]
+MachNozz	date_time (ea_pap_nozzle)
+MachNozz	Mach-CH-Hole [machine_name]&"-"&[#"Changer#"]&"-"&[#"Hole#"]
+MachNozz	ul_comp_missing (ea_pap_nozzle)
+MachNozz	ul_picks (ea_pap_nozzle)
+MachNozz	ul_placements (ea_pap_nozzle)
+MachNozz	ul_possible_missing (ea_pap_nozzle)
+MachNozz	ul_rejects (ea_pap_nozzle)
+
+select ea_equipmentoutline.machine_name, ea_pap_nozzle.date_time,ea_pap_nozzle.location,ea_pap_nozzle.ul_comp_missing,ea_pap_nozzle.ul_picks,ea_pap_nozzle.ul_placements,ea_pap_nozzle.ul_possible_missing,ea_pap_nozzle.ul_rejects
+from ea_equipmentoutline, ea_pap_nozzle where ea_equipmentoutline.equipment_make = ea_pap_nozzle.user_name limit 10;
+
+
++---------------------------------------+
+| TableName     |  Last Updated Time    |
++---------------------------------------+
+| inbound_pap | 2017-10-25 13:55 |
+| inbound_md | 2017-10-25 13:35 |
+| inbound_spi | 2017-10-25 13:53 |
+| ea_spi_detail | 2017-10-25 13:55 |
+| ea_spi_header | 2017-10-25 13:54 |
+| ea_pap_nozzle | 2017-10-25 13:50 |
+| ea_pap_info | 2017-10-25 02:51 |
+| ea_pap_slot | 2017-10-25 13:50 |
+| ea_pap_gen | 2017-10-25 13:45 |
+| ea_pap_timers | 2017-10-25 13:45 |
+| ea_equipmentoutline | 2017-10-25 02:43 |
+| ea_comptype | 2017-10-25 02:42 |
+| ea_parentchild | 2017-10-25 13:40 |
+| ea_workorder | 2017-10-25 13:40 |
+| ea_assycircuitsilk | 2017-10-25 02:42 |
+| ea_wodetail | 2017-10-25 12:40 |
+| ea_units | 2017-10-25 13:40 |
+| ea_assydetail | 2017-10-25 02:41 |
+| ea_ftdefects | 2017-10-25 13:40 |
+| ea_progorderlist | 2017-10-25 12:40 |
++---------------------------------------+
+azrudb5003.ra.rockwell.com:/apps/raiot/dev/config $ date
+Wed Oct 25 14:09:38 GMT 2017
+
+
+
+select * from topic_partitions_offset;
++----------+------------+--------------------------------------+
+| offset   | partitions | topic                                |
++----------+------------+--------------------------------------+
+| 12       | 0          | cgp_kafka_masterdata_xyz_ra_test     |
+| 9444     | 0          | cgp_kafka_spi_ea_ra                  |
+| 4804     | 0          | cgp_kafka_masterdata_xyz_ra          |
+| 8929     | 0          | cgp_kafka_spi_header_ea_ra_out_hive  |
+| 28557506 | 0          | cgp_kafka_spi_detail_ea_ra_out_hive  |
+| 2275680  | 0          | cgp_kafka_masterdata_xyz_ra_out_hive |
+| 5107273  | 0          | cgp_kafka_ea_ra_out                  |
+| 19331    | 0          | cgp_kafka_pap_ea_ra                  |
+| 8552121  | 0          | cgp_kafka_pap_ea_ra_out_hive         |
++----------+------------+--------------------------------------+
+9 rows in set (0.00 sec)
+
+select * from topic_partitions_offset;
++--------+------------+-----------------------------+
+| offset | partitions | topic                       |
++--------+------------+-----------------------------+
+| 19331  | 0          | cgp_kafka_pap_ea_ra         |
+| 4804   | 0          | cgp_kafka_masterdata_xyz_ra |
+| 9444   | 0          | cgp_kafka_spi_ea_ra         |
++--------+------------+-----------------------------+
+3 rows in set (0.01 sec)
+
+
+
+insert into topic_partitions_offset(offset,partitions,topic) values (19331,0,'cgp_kafka_pap_ea_ra');
+insert into topic_partitions_offset(offset,partitions,topic) values (4804,0,'cgp_kafka_masterdata_xyz_ra');
+insert into topic_partitions_offset(offset,partitions,topic) values (9444,0,'cgp_kafka_spi_ea_ra');
+
+ea_spi_detail 68693977
+ea_spi_header 25630
+ea_assycircuitsilk 841580
+ea_assydetail 2398
+ea_comptype 1041424
+ea_equipmentoutline 8080
+ea_ftdefects 141361
+ea_progorderlist 79319
+ea_units 796641
+ea_wodetail 31787
+ea_workorder 17905
+ea_pap_gen 270407
+ea_pap_info 11048
+ea_pap_nozzle 5132134
+ea_pap_slot 2868127
+ea_pap_timers 270405
+ea_parentchild 1105710
+

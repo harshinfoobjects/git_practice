@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Wed Feb 21 15:19:25 IST 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0161-b7c4-83de-00002df4f720 
+on database directory /home/infoobjects/harsh/mygitrepo_powerbi/ratwb/powerbi-streaming2/metastore_db with class loader org.apache.spark.sql.hive.client.IsolatedClientLoader$$anon$1@bfd97fb 
+Loaded from file:/home/hduser/spark-1.6.0-bin-hadoop2.6/lib/spark-assembly-1.6.0-hadoop2.6.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_161-b12
+user.dir=/home/infoobjects/harsh/mygitrepo_powerbi/ratwb/powerbi-streaming2
+os.name=Linux
+os.arch=amd64
+os.version=3.19.0-25-generic
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

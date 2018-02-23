@@ -1,0 +1,4 @@
+#!/bin/bash
+cd /apps/rauptime/twbtemp/ratwb/config
+kinit svc-ra-bicoeloaddev@RA-INT.COM -k -t svc-ra-bicoeloaddev.keytab
+nohup spark-submit --master local[*] --keytab "svc-ra-bicoeloaddev.keytab" --principal "svc-ra-bicoeloaddev@RA-INT.COM"  --driver-memory 2g --executor-memory 2g --conf "spark.streaming.unpersist=true" --conf "spark.executor.heartbeatInterval=20s" --conf "spark.streaming.kafka.maxRetries=5" --conf "spark.streaming.backpressure.enabled=true" --conf "spark.executor.extraJavaOptions=-XX:+UseG1GC" --conf "spark.driver.extraJavaOptions=-XX:+UseG1GC" --conf spark.yarn.stagingDir=hdfs:///tmp/spark/ --files "hive-service.properties" --conf "spark.memory.storageFraction=0.3" /apps/rauptime/twbtemp/ratwb/build/hive-spark-service-0.1.0-SNAPSHOT.jar hive-service.properties > hive-service.log 2>&1 & echo $! > hive-service.pid
